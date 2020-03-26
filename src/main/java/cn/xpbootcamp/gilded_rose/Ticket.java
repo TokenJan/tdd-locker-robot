@@ -13,6 +13,8 @@ public class Ticket {
         this.id = UUID.randomUUID().toString();
     }
 
+    public Ticket() { }
+
     public Locker getLocker() {
         return locker;
     }

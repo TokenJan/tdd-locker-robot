@@ -22,4 +22,8 @@ public class Locker {
     void open() {
         this.open = true;
     }
+
+    void occupy() {
+        this.empty = false;
+    }
 }

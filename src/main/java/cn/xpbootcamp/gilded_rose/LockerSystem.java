@@ -2,7 +2,6 @@ package cn.xpbootcamp.gilded_rose;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class LockerSystem {
 
@@ -11,15 +10,18 @@ public class LockerSystem {
     private int lockerCount;
 
     Ticket store() {
-        lockerCount -= 1;
         Locker locker = lockers.stream()
                 .filter(Locker::isEmpty)
                 .findFirst()
                 .orElse(null);
         if (locker != null) {
+            lockerCount -= 1;
             locker.open();
+            locker.occupy();
+            return new Ticket(locker);
+        } else {
+            return null;
         }
-        return new Ticket(locker);
     }
 
     public LockerSystem(int lockerCount) {
