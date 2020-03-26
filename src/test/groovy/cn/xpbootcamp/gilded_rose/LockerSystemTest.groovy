@@ -61,4 +61,16 @@ class LockerSystemTest extends Specification{
         then:
         thrown(InvalidTicketException)
     }
+
+    def "should throw invalid ticket exception when take given invalid ticket"() {
+        given:
+        def lockerSystem = new LockerSystem(10)
+        def invalidTicket = new Ticket(Ticket.Status.SUCCESS)
+
+        when:
+        lockerSystem.take(invalidTicket)
+
+        then:
+        thrown(InvalidTicketException)
+    }
 }
