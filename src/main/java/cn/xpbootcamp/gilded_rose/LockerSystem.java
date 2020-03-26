@@ -11,15 +11,6 @@ public class LockerSystem {
 
     private List<Locker> lockers = new ArrayList<>();
 
-    Ticket store() {
-        Locker locker = lockers.stream()
-                .filter(Locker::isFree)
-                .findFirst()
-                .orElseThrow(LockerFullException::new);
-        locker.store();
-        return locker.getTicket();
-    }
-
     LockerSystem(int lockerCount) {
         if (lockerCount < 0) {
             throw new InitializeLockerSystemException();
@@ -30,10 +21,13 @@ public class LockerSystem {
         }
     }
 
-    long getFreeLockerCount() {
-        return this.lockers.stream()
+    Ticket store() {
+        Locker locker = lockers.stream()
                 .filter(Locker::isFree)
-                .count();
+                .findFirst()
+                .orElseThrow(LockerFullException::new);
+        locker.store();
+        return locker.getTicket();
     }
 
     Locker take(Ticket ticket) {
@@ -48,5 +42,11 @@ public class LockerSystem {
                 .filter(locker -> locker.getTicket().equals(ticket))
                 .findAny()
                 .orElseThrow(InvalidTicketException::new);
+    }
+
+    long getFreeLockerCount() {
+        return this.lockers.stream()
+                .filter(Locker::isFree)
+                .count();
     }
 }
