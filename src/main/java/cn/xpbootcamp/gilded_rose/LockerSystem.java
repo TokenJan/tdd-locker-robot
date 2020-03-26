@@ -34,9 +34,7 @@ public class LockerSystem {
 
     Locker take(Ticket ticket) {
         Locker locker = findLockerByTicker(ticket);
-        if (locker != null) {
-            locker.take();
-        }
+        locker.take();
         return locker;
     }
 
