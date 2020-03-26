@@ -13,9 +13,9 @@ class LockerSystemTest extends Specification{
 
         then:
         def locker = lockerSystem.findLockerByTicker(ticket)
-        lockerSystem.getLockerCount() == 9
+        lockerSystem.getFreeLockerCount() == 9
         locker.isOpen()
-        !locker.isEmpty()
+        !locker.isFree()
         ticket.getId() != null
     }
 
@@ -30,7 +30,7 @@ class LockerSystemTest extends Specification{
         def ticket = lockerSystem.store()
 
         then:
-        lockerSystem.getLockerCount() == 0
+        lockerSystem.getFreeLockerCount() == 0
         ticket == null
     }
 
@@ -43,8 +43,8 @@ class LockerSystemTest extends Specification{
         def locker = lockerSystem.take(ticket)
 
         then:
-        lockerSystem.getLockerCount() == 10
+        lockerSystem.getFreeLockerCount() == 10
         locker.isOpen()
-        locker.isEmpty()
+        locker.isFree()
     }
 }

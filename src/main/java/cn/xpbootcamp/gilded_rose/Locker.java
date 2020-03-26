@@ -4,39 +4,36 @@ public class Locker {
 
     private boolean open;
 
-    private boolean empty;
+    private boolean free;
 
     private Ticket ticket;
 
     Locker() {
         this.open = false;
-        this.empty = true;
+        this.free = true;
     }
 
     boolean isOpen() {
         return this.open;
     }
 
-    boolean isEmpty() {
-        return this.empty;
+    boolean isFree() {
+        return this.free;
     }
 
     public Ticket getTicket() {
         return ticket;
     }
 
-    void open() {
-        this.open = true;
-    }
-
-    void occupy() {
+    void store() {
         this.ticket = new Ticket();
-        this.empty = false;
+        this.free = false;
+        this.open = true;
     }
 
     void take() {
         this.ticket = null;
-        this.empty = true;
+        this.free = true;
         this.open = true;
     }
 }

@@ -7,38 +7,34 @@ public class LockerSystem {
 
     private List<Locker> lockers = new ArrayList<>();
 
-    private int lockerCount;
-
     Ticket store() {
         Locker locker = lockers.stream()
-                .filter(Locker::isEmpty)
+                .filter(Locker::isFree)
                 .findFirst()
                 .orElse(null);
         if (locker != null) {
-            lockerCount -= 1;
-            locker.open();
-            locker.occupy();
+            locker.store();
             return locker.getTicket();
         } else {
             return null;
         }
     }
 
-    public LockerSystem(int lockerCount) {
-        this.lockerCount = lockerCount;
+    LockerSystem(int lockerCount) {
         for (int i = 0; i < lockerCount; i++) {
             lockers.add(new Locker());
         }
     }
 
-    public int getLockerCount() {
-        return lockerCount;
+    long getFreeLockerCount() {
+        return this.lockers.stream()
+                .filter(Locker::isFree)
+                .count();
     }
 
-    public Locker take(Ticket ticket) {
+    Locker take(Ticket ticket) {
         Locker locker = findLockerByTicker(ticket);
         if (locker != null) {
-            lockerCount += 1;
             locker.take();
         }
         return locker;
