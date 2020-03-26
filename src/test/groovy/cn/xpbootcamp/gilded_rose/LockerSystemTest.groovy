@@ -1,8 +1,21 @@
 package cn.xpbootcamp.gilded_rose
 
+import cn.xpbootcamp.gilded_rose.exception.InitializeLockerSystemException
+import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException
+import cn.xpbootcamp.gilded_rose.exception.LockerFullException
 import spock.lang.Specification
 
 class LockerSystemTest extends Specification{
+
+    void "should return create locker system exception when create locker system given locker count is less than 0"() {
+        given:
+
+        when:
+        new LockerSystem(-1)
+
+        then:
+        thrown(InitializeLockerSystemException)
+    }
 
     void "should return ticket and open the locker when store given locker system is not full"() {
         given:

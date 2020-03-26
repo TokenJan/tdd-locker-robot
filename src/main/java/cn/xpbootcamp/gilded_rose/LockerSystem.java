@@ -1,5 +1,9 @@
 package cn.xpbootcamp.gilded_rose;
 
+import cn.xpbootcamp.gilded_rose.exception.InitializeLockerSystemException;
+import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
+import cn.xpbootcamp.gilded_rose.exception.LockerFullException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +21,10 @@ public class LockerSystem {
     }
 
     LockerSystem(int lockerCount) {
+        if (lockerCount < 0) {
+            throw new InitializeLockerSystemException();
+        }
+
         for (int i = 0; i < lockerCount; i++) {
             lockers.add(new Locker());
         }
