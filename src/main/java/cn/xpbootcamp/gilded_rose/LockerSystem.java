@@ -42,8 +42,9 @@ public class LockerSystem {
 
     Locker findLockerByTicker(Ticket ticket) {
         return lockers.stream()
-                .filter(lock -> lock.getTicket().equals(ticket))
+                .filter(locker -> !locker.isFree())
+                .filter(locker -> locker.getTicket().equals(ticket))
                 .findAny()
-                .orElse(null);
+                .orElseThrow(InvalidTicketException::new);
     }
 }

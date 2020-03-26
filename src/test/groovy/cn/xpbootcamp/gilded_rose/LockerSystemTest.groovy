@@ -48,4 +48,17 @@ class LockerSystemTest extends Specification{
         locker.isOpen()
         locker.isFree()
     }
+
+    def "should throw invalid ticket exception when take given used ticket"() {
+        given:
+        def lockerSystem = new LockerSystem(10)
+        def ticket = lockerSystem.store()
+        lockerSystem.take(ticket)
+
+        when:
+        lockerSystem.take(ticket)
+
+        then:
+        thrown(InvalidTicketException)
+    }
 }
