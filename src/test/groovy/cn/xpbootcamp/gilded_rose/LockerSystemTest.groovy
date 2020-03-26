@@ -31,7 +31,8 @@ class LockerSystemTest extends Specification{
 
         then:
         lockerSystem.getFreeLockerCount() == 0
-        ticket == null
+        ticket.getStatus() == Ticket.Status.FALIED
+        ticket.getStatus().getMessage() == "NO FREE LOCKER AVAILABLE"
     }
 
     void "should open the locker when take given valid ticket"() {

@@ -26,7 +26,7 @@ public class Locker {
     }
 
     void store() {
-        this.ticket = new Ticket();
+        this.ticket = new Ticket(Ticket.Status.SUCCESS);
         this.free = false;
         this.open = true;
     }
