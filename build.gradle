@@ -2,6 +2,7 @@ group 'cn.xpbootcamp'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'groovy'
 apply plugin: 'idea'
 
 sourceCompatibility = 1.8
@@ -41,4 +42,6 @@ dependencies {
     testCompile 'org.assertj:assertj-core:3.10.0'
     testCompile 'org.mockito:mockito-junit-jupiter:2.17.0'
     testImplementation 'com.approvaltests:approvaltests:4.0.2'
+    // spock test
+    testImplementation "org.spockframework:spock-core:1.2-groovy-2.4"
 }
