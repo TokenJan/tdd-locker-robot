@@ -18,7 +18,7 @@ public class LockerSystem {
             lockerCount -= 1;
             locker.open();
             locker.occupy();
-            return new Ticket(locker);
+            return locker.getTicket();
         } else {
             return null;
         }
@@ -33,5 +33,21 @@ public class LockerSystem {
 
     public int getLockerCount() {
         return lockerCount;
+    }
+
+    public Locker take(Ticket ticket) {
+        Locker locker = findLockerByTicker(ticket);
+        if (locker != null) {
+            lockerCount += 1;
+            locker.take();
+        }
+        return locker;
+    }
+
+    Locker findLockerByTicker(Ticket ticket) {
+        return lockers.stream()
+                .filter(lock -> lock.getTicket().equals(ticket))
+                .findAny()
+                .orElse(null);
     }
 }

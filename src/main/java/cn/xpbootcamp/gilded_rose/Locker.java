@@ -6,6 +6,8 @@ public class Locker {
 
     private boolean empty;
 
+    private Ticket ticket;
+
     Locker() {
         this.open = false;
         this.empty = true;
@@ -19,11 +21,22 @@ public class Locker {
         return this.empty;
     }
 
+    public Ticket getTicket() {
+        return ticket;
+    }
+
     void open() {
         this.open = true;
     }
 
     void occupy() {
+        this.ticket = new Ticket();
         this.empty = false;
+    }
+
+    void take() {
+        this.ticket = null;
+        this.empty = true;
+        this.open = true;
     }
 }

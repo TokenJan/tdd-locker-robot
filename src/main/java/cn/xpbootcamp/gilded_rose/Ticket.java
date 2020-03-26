@@ -4,19 +4,10 @@ import java.util.UUID;
 
 public class Ticket {
 
-    private Locker locker;
-
     private String id;
 
-    public Ticket(Locker locker) {
-        this.locker = locker;
+    public Ticket() {
         this.id = UUID.randomUUID().toString();
-    }
-
-    public Ticket() { }
-
-    public Locker getLocker() {
-        return locker;
     }
 
     public String getId() {
