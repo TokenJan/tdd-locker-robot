@@ -11,13 +11,9 @@ public class LockerSystem {
         Locker locker = lockers.stream()
                 .filter(Locker::isFree)
                 .findFirst()
-                .orElse(null);
-        if (locker != null) {
-            locker.store();
-            return locker.getTicket();
-        } else {
-            throw new LockerFullException();
-        }
+                .orElseThrow(LockerFullException::new);
+        locker.store();
+        return locker.getTicket();
     }
 
     LockerSystem(int lockerCount) {
