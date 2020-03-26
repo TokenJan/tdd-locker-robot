@@ -31,12 +31,12 @@ public class LockerSystem {
     }
 
     Locker take(Ticket ticket) {
-        Locker locker = findLockerByTicker(ticket);
+        Locker locker = findLockerByTicket(ticket);
         locker.take();
         return locker;
     }
 
-    Locker findLockerByTicker(Ticket ticket) {
+    Locker findLockerByTicket(Ticket ticket) {
         return lockers.stream()
                 .filter(locker -> !locker.isFree())
                 .filter(locker -> locker.getTicket().equals(ticket))

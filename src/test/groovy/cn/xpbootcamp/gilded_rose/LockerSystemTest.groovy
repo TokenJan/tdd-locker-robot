@@ -25,7 +25,7 @@ class LockerSystemTest extends Specification{
         def ticket = lockerSystem.store()
 
         then:
-        def locker = lockerSystem.findLockerByTicker(ticket)
+        def locker = lockerSystem.findLockerByTicket(ticket)
         lockerSystem.getFreeLockerCount() == 9
         locker.isOpen()
         !locker.isFree()
