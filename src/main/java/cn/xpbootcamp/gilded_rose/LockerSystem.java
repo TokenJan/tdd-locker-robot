@@ -16,7 +16,7 @@ public class LockerSystem {
             locker.store();
             return locker.getTicket();
         } else {
-            return new Ticket(Ticket.Status.FALIED);
+            throw new LockerFullException();
         }
     }
 

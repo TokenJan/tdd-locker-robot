@@ -27,12 +27,11 @@ class LockerSystemTest extends Specification{
         }
 
         when:
-        def ticket = lockerSystem.store()
+        lockerSystem.store()
 
         then:
         lockerSystem.getFreeLockerCount() == 0
-        ticket.getStatus() == Ticket.Status.FALIED
-        ticket.getStatus().getMessage() == "NO FREE LOCKER AVAILABLE"
+        thrown(LockerFullException)
     }
 
     void "should open the locker when take given valid ticket"() {
@@ -65,7 +64,7 @@ class LockerSystemTest extends Specification{
     def "should throw invalid ticket exception when take given invalid ticket"() {
         given:
         def lockerSystem = new LockerSystem(10)
-        def invalidTicket = new Ticket(Ticket.Status.SUCCESS)
+        def invalidTicket = new Ticket()
 
         when:
         lockerSystem.take(invalidTicket)
