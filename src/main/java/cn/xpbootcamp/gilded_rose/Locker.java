@@ -27,9 +27,6 @@ public class Locker {
     public Bag take(Ticket ticket) {
         Bag bag = storedBags.get(ticket);
         storedBags.remove(ticket);
-        if (bag == null) {
-            throw new InvalidTicketException();
-        }
         return bag;
     }
 

@@ -69,12 +69,14 @@ class LockerTest extends Specification{
 
     void "should return the bag when take given valid ticket"() {
         given:
+        def robot = new Robot()
         def locker = new Locker(10)
+        robot.addLocker(locker)
         def bag = new Bag()
-        def ticket = locker.store(bag)
+        def ticket = robot.store(bag)
 
         when:
-        def myBag = locker.take(ticket)
+        def myBag = robot.take(ticket)
 
         then:
         bag == myBag
