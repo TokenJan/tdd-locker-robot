@@ -1,39 +1,35 @@
 package cn.xpbootcamp.gilded_rose;
 
+import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
+import cn.xpbootcamp.gilded_rose.exception.LockerFullException;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Locker {
 
-    private boolean open;
+    private int capacity;
+    private Map<Ticket, Bag> storedBags = new HashMap<>();
 
-    private boolean free;
-
-    private Ticket ticket;
-
-    Locker() {
-        this.open = false;
-        this.free = true;
+    Locker(int capacity) {
+        this.capacity = capacity;
     }
 
-    boolean isOpen() {
-        return this.open;
-    }
-
-    boolean isFree() {
-        return this.free;
-    }
-
-    public Ticket getTicket() {
+    public Ticket store(Bag bag) {
+        if (storedBags.size() == capacity) {
+            throw new LockerFullException();
+        }
+        Ticket ticket = new Ticket();
+        storedBags.put(ticket, bag);
         return ticket;
     }
 
-    void store() {
-        this.ticket = new Ticket();
-        this.free = false;
-        this.open = true;
-    }
-
-    void take() {
-        this.ticket = null;
-        this.free = true;
-        this.open = true;
+    public Bag take(Ticket ticket) {
+        Bag bag = storedBags.get(ticket);
+        storedBags.remove(ticket);
+        if (bag == null) {
+            throw new InvalidTicketException();
+        }
+        return bag;
     }
 }
