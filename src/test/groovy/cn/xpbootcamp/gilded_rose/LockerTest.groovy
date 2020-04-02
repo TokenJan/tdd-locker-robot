@@ -7,16 +7,23 @@ import spock.lang.Specification
 
 class LockerTest extends Specification{
 
-    void "should return ticket and open the locker when store given locker is not full"() {
+    void "should store the bag in the first not free locker when store bag given the first locker is not full"() {
         given:
-        def locker  = new Locker(10)
+        def robot = new Robot()
+        def locker = new Locker(5)
+        def lockers = (1..4).collect {
+            new Locker(5)
+        }
         def bag = new Bag()
+        robot.addLocker(locker)
+        robot.addLockers(lockers)
 
         when:
-        def ticket = locker.store(bag)
+        def ticket = robot.store(bag)
 
         then:
         ticket != null
+        locker.take(ticket) == bag
     }
 
     void "should not return ticket when store given locker system is full"() {

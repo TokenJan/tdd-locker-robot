@@ -32,4 +32,8 @@ public class Locker {
         }
         return bag;
     }
+
+    public boolean isFree() {
+        return this.capacity != this.storedBags.size();
+    }
 }
