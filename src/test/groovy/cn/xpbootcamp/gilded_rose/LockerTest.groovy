@@ -31,9 +31,9 @@ class LockerTest extends Specification{
         def robot = new LockerRobot([firstLocker, secondLocker])
         def ticket = firstLocker.store(new Bag())
         def bag = new Bag()
-        firstLocker.take(ticket)
 
         when:
+        firstLocker.take(ticket)
         def newTicket = robot.store(bag)
 
         then:

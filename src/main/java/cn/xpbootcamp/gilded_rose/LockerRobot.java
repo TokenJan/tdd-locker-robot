@@ -3,13 +3,12 @@ package cn.xpbootcamp.gilded_rose;
 import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
 import cn.xpbootcamp.gilded_rose.exception.LockerFullException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class LockerRobot {
 
-    private List<Locker> lockers = new ArrayList<>();
+    private List<Locker> lockers;
 
     public LockerRobot(List<Locker> lockers) {
         this.lockers = lockers;
