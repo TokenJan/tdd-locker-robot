@@ -49,6 +49,24 @@ class LockerTest extends Specification{
         locker.take(ticket) == bag
     }
 
+    void "should throw locker full exception when store bag given all lockers are full"() {
+        given:
+        def robot = new Robot()
+        def lockers = (1..3).collect {
+            new Locker(1)
+        }
+        robot.addLockers(lockers)
+
+        when:
+        robot.store(new Bag())
+        robot.store(new Bag())
+        robot.store(new Bag())
+        robot.store(new Bag())
+
+        then:
+        thrown(LockerFullException)
+    }
+
     void "should return the bag when take given valid ticket"() {
         given:
         def locker = new Locker(10)
