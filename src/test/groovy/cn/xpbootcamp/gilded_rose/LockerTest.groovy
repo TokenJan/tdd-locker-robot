@@ -8,59 +8,46 @@ import spock.lang.Specification
 class LockerTest extends Specification{
 
     void "should store the bag in the 1st locker when store bag given the 1st locker is not full"() {
-        given:
-        def robot = new Robot()
-        def locker = new Locker(5)
+        def locker = new Locker(5, 5)
         def lockers = (1..4).collect {
-            new Locker(5)
+            new Locker(5, 5)
         }
+        given:
+        def robot = new LockerRobot([locker, lockers])
         def bag = new Bag()
-        robot.addLocker(locker)
-        robot.addLockers(lockers)
 
         when:
         def ticket = robot.store(bag)
 
         then:
         ticket != null
-        locker.take(ticket) == bag
+        robot.getLockers().get(0).take(ticket) == bag
     }
 
-    void "should store the bag in the 4th locker when store bag given the 1,2,3 locker is full and 4th locker is not full"() {
+    void "should store the bag in the 1st locker when take bag from the 1st locker and store bag given 1st locker is full and 2nd locker is not full"() {
         given:
-        def robot = new Robot()
-        def locker = new Locker(1)
-        def lockers = (1..3).collect {
-            new Locker(1)
-        }
+        def firstLocker = new Locker(1, 1)
+        def secondLocker = new Locker(1, 1)
+        def robot = new LockerRobot([firstLocker, secondLocker])
+        def ticket = firstLocker.store(new Bag())
         def bag = new Bag()
-        robot.addLockers(lockers)
-        robot.addLocker(locker)
-
+        firstLocker.take(ticket)
 
         when:
-        robot.store(new Bag())
-        robot.store(new Bag())
-        robot.store(new Bag())
-        def ticket = robot.store(bag)
+        def newTicket = robot.store(bag)
 
         then:
-        ticket != null
-        locker.take(ticket) == bag
+        robot.getLockers().get(0).take(newTicket) == bag
     }
 
     void "should throw locker full exception when store bag given all lockers are full"() {
         given:
-        def robot = new Robot()
         def lockers = (1..3).collect {
-            new Locker(1)
+            new Locker(1, 0)
         }
-        robot.addLockers(lockers)
+        def robot = new LockerRobot(lockers)
 
         when:
-        robot.store(new Bag())
-        robot.store(new Bag())
-        robot.store(new Bag())
         robot.store(new Bag())
 
         then:
@@ -69,9 +56,10 @@ class LockerTest extends Specification{
 
     void "should return the bag when take given valid ticket"() {
         given:
-        def robot = new Robot()
-        def locker = new Locker(10)
-        robot.addLocker(locker)
+        def lockers = (1..3).collect {
+            new Locker(1, 1)
+        }
+        def robot = new LockerRobot(lockers)
         def bag = new Bag()
         def ticket = robot.store(bag)
 
@@ -82,27 +70,12 @@ class LockerTest extends Specification{
         bag == myBag
     }
 
-    def "should throw invalid ticket exception when take given used ticket"() {
-        given:
-        def robot = new Robot()
-        def locker = new Locker(10)
-        robot.addLocker(locker)
-        def bag = new Bag()
-        def ticket = locker.store(bag)
-        robot.take(ticket)
-
-        when:
-        robot.take(ticket)
-
-        then:
-        thrown(InvalidTicketException)
-    }
-
     def "should throw invalid ticket exception when take given invalid ticket"() {
         given:
-        def robot = new Robot()
-        def locker = new Locker(10)
-        robot.addLocker(locker)
+        def lockers = (1..3).collect {
+            new Locker(1, 1)
+        }
+        def robot = new LockerRobot(lockers)
         def invalidTicket = new Ticket()
 
         when:

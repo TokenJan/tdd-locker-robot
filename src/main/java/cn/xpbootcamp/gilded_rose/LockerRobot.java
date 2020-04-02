@@ -7,16 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Robot {
+public class LockerRobot {
 
     private List<Locker> lockers = new ArrayList<>();
 
-    public void addLocker(Locker locker) {
-        this.lockers.add(locker);
-    }
-
-    public void addLockers(List<Locker> lockers) {
-        this.lockers.addAll(lockers);
+    public LockerRobot(List<Locker> lockers) {
+        this.lockers = lockers;
     }
 
     public Ticket store(Bag bag) {
@@ -33,5 +29,9 @@ public class Robot {
                 .filter(Objects::nonNull)
                 .findFirst()
                 .orElseThrow(InvalidTicketException::new);
+    }
+
+    public List<Locker> getLockers() {
+        return lockers;
     }
 }
