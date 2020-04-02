@@ -100,11 +100,13 @@ class LockerTest extends Specification{
 
     def "should throw invalid ticket exception when take given invalid ticket"() {
         given:
+        def robot = new Robot()
         def locker = new Locker(10)
+        robot.addLocker(locker)
         def invalidTicket = new Ticket()
 
         when:
-        locker.take(invalidTicket)
+        robot.take(invalidTicket)
 
         then:
         thrown(InvalidTicketException)
