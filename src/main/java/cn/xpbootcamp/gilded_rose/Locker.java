@@ -15,8 +15,8 @@ public class Locker {
         this.capacity = capacity;
     }
 
-    public Ticket store(Bag bag) {
-        if (storedBags.size() == capacity) {
+    Ticket store(Bag bag) {
+        if (!isFree()) {
             throw new LockerFullException();
         }
         Ticket ticket = new Ticket();
@@ -24,13 +24,13 @@ public class Locker {
         return ticket;
     }
 
-    public Bag take(Ticket ticket) {
+    Bag take(Ticket ticket) {
         Bag bag = storedBags.get(ticket);
         storedBags.remove(ticket);
         return bag;
     }
 
-    public boolean isFree() {
+    boolean isFree() {
         return this.capacity != this.storedBags.size();
     }
 }
