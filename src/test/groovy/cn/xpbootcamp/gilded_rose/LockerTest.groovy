@@ -58,14 +58,14 @@ class LockerTest extends Specification{
             new Locker(1, 1)
         }
         def robot = new LockerRobot(lockers)
-        def bag = new Bag()
-        def ticket = robot.store(bag)
+        def myBag = new Bag()
+        def ticket = robot.store(myBag)
 
         when:
-        def myBag = robot.take(ticket)
+        def fetchedBag = robot.take(ticket)
 
         then:
-        bag == myBag
+        myBag == fetchedBag
     }
 
     def "should throw invalid ticket exception when take given invalid ticket"() {
