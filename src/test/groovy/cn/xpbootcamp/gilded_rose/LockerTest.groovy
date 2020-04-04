@@ -8,12 +8,12 @@ import spock.lang.Specification
 class LockerTest extends Specification{
 
     void "should store the bag in the 1st locker when store bag given the 1st locker is not full"() {
-        def locker = new Locker(5, 5)
-        def lockers = (1..4).collect {
-            new Locker(5, 5)
-        }
         given:
-        def robot = new LockerRobot([locker, lockers])
+        def firstLocker = new Locker(1, 1)
+        def restLockers = (1..4).collect {
+            new Locker(1, 1)
+        }
+        def robot = new LockerRobot([firstLocker, restLockers])
         def bag = new Bag()
 
         when:
