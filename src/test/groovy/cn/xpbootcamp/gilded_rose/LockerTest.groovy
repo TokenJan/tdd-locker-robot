@@ -24,20 +24,18 @@ class LockerTest extends Specification{
         robot.getLockers().get(0).take(ticket) == bag
     }
 
-    void "should store the bag in the 1st locker when take bag from the 1st locker and store bag given 1st locker is full and 2nd locker is not full"() {
+    void "should store the bag in the 2nd locker when store bag given 1st locker is full and 2nd locker is not full"() {
         given:
-        def firstLocker = new Locker(1, 1)
+        def firstLocker = new Locker(1, 0)
         def secondLocker = new Locker(1, 1)
         def robot = new LockerRobot([firstLocker, secondLocker])
-        def ticket = firstLocker.store(new Bag())
         def bag = new Bag()
 
         when:
-        firstLocker.take(ticket)
-        def newTicket = robot.store(bag)
+        def ticket = robot.store(bag)
 
         then:
-        robot.getLockers().get(0).take(newTicket) == bag
+        robot.getLockers().get(1).take(ticket) == bag
     }
 
     void "should throw locker full exception when store bag given all lockers are full"() {
