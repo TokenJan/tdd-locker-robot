@@ -4,7 +4,6 @@ import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
 import cn.xpbootcamp.gilded_rose.exception.LockerFullException;
 
 import java.util.List;
-import java.util.Objects;
 
 public class LockerRobot {
 
@@ -16,7 +15,7 @@ public class LockerRobot {
 
     public Ticket store(Bag bag) {
         Locker locker = this.lockers.stream()
-                .filter(Locker::isFree)
+                .filter(Locker::isAvailable)
                 .findFirst()
                 .orElseThrow(LockerFullException::new);
         return locker.store(bag);
@@ -24,13 +23,9 @@ public class LockerRobot {
 
     public Bag take(Ticket ticket) {
         return this.lockers.stream()
-                .map(locker -> locker.take(ticket))
-                .filter(Objects::nonNull)
+                .filter(locker -> locker.isTicketValid(ticket))
                 .findFirst()
+                .map(locker -> locker.take(ticket))
                 .orElseThrow(InvalidTicketException::new);
-    }
-
-    public List<Locker> getLockers() {
-        return lockers;
     }
 }

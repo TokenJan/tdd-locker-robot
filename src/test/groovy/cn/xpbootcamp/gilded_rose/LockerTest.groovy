@@ -1,84 +1,76 @@
 package cn.xpbootcamp.gilded_rose
 
-
 import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException
 import cn.xpbootcamp.gilded_rose.exception.LockerFullException
 import spock.lang.Specification
 
-class LockerTest extends Specification{
+class LockerTest extends Specification {
 
-    void "should store the bag in the 1st locker when store bag given the 1st locker is not full"() {
+    void "should return ticket when store bag given the locker is not full"() {
         given:
-        def lockers = (1..5).collect {
-            new Locker(1, 1)
-        }
-        def robot = new LockerRobot(lockers)
+        def locker  = new Locker(10)
         def bag = new Bag()
 
         when:
-        def ticket = robot.store(bag)
+        def ticket = locker.store(bag)
 
         then:
         ticket != null
-        robot.getLockers().get(0).take(ticket) == bag
     }
 
-    void "should store the bag in the 2nd locker when store bag given 1st locker is full and 2nd locker is not full"() {
+    void "should throw locker full exception when store bag given locker is full"() {
         given:
-        def firstLocker = new Locker(1, 0)
-        def secondLocker = new Locker(1, 1)
-        def robot = new LockerRobot([firstLocker, secondLocker])
-        def bag = new Bag()
+        def fullLocker = getFullLocker()
 
         when:
-        def ticket = robot.store(bag)
-
-        then:
-        robot.getLockers().get(1).take(ticket) == bag
-    }
-
-    void "should throw locker full exception when store bag given all lockers are full"() {
-        given:
-        def lockers = (1..3).collect {
-            new Locker(1, 0)
-        }
-        def robot = new LockerRobot(lockers)
-
-        when:
-        robot.store(new Bag())
+        fullLocker.store(new Bag())
 
         then:
         thrown(LockerFullException)
     }
 
-    void "should return the bag when take given valid ticket"() {
+    void "should get my bag when take out bag from the locker given valid ticket"() {
         given:
-        def lockers = (1..3).collect {
-            new Locker(1, 1)
-        }
-        def robot = new LockerRobot(lockers)
-        def myBag = new Bag()
-        def ticket = robot.store(myBag)
+        def locker = new Locker(10)
+        def bagIn = new Bag()
+        def ticket = locker.store(bagIn)
 
         when:
-        def fetchedBag = robot.take(ticket)
+        def bagOut = locker.take(ticket)
 
         then:
-        myBag == fetchedBag
+        bagIn == bagOut
+    }
+
+    def "should throw invalid ticket exception when take out bag given used ticket"() {
+        given:
+        def locker = new Locker(10)
+        def bag = new Bag()
+        def ticket = locker.store(bag)
+        locker.take(ticket)
+
+        when:
+        locker.take(ticket)
+
+        then:
+        thrown(InvalidTicketException)
     }
 
     def "should throw invalid ticket exception when take given invalid ticket"() {
         given:
-        def lockers = (1..3).collect {
-            new Locker(1, 1)
-        }
-        def robot = new LockerRobot(lockers)
+        def locker = new Locker(10)
         def invalidTicket = new Ticket()
 
         when:
-        robot.take(invalidTicket)
+        locker.take(invalidTicket)
 
         then:
         thrown(InvalidTicketException)
+    }
+
+    Locker getFullLocker() {
+        def locker = new Locker(1)
+        locker.store(new Bag())
+        return locker
     }
 }
