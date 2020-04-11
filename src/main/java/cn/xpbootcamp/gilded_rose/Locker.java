@@ -39,6 +39,10 @@ public class Locker {
     }
 
     boolean isAvailable() {
-        return this.storedBags.size() < capacity;
+        return this.storedBags.size() < this.capacity;
+    }
+
+    int getFreeSpace() {
+        return this.capacity - this.storedBags.size();
     }
 }
