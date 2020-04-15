@@ -5,6 +5,7 @@ import cn.xpbootcamp.gilded_rose.exception.LockerFullException;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 public class SuperLockerRobot {
 
@@ -15,15 +16,14 @@ public class SuperLockerRobot {
     }
 
     Ticket store(Bag bag) {
-        Locker locker = getMaxVacancyRateLocker();
+        Locker locker = getMaxVacancyRateLocker().orElseThrow(LockerFullException::new);
         return locker.store(bag);
     }
 
-    private Locker getMaxVacancyRateLocker() {
+    private Optional<Locker> getMaxVacancyRateLocker() {
         return this.lockers.stream()
                 .filter(Locker::isAvailable)
-                .max(Comparator.comparingDouble(Locker::getVacancyRate))
-                .orElseThrow(LockerFullException::new);
+                .max(Comparator.comparingDouble(Locker::getVacancyRate));
     }
 
     Bag take(Ticket ticket) {
