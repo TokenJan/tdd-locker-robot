@@ -1,5 +1,6 @@
 package cn.xpbootcamp.gilded_rose
 
+import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException
 import cn.xpbootcamp.gilded_rose.exception.LockerFullException
 import spock.lang.Specification
 
@@ -102,5 +103,18 @@ class SuperLockerRobotTest extends Specification {
 
         then:
         bagIn == bagOut
+    }
+
+    def "should throw invalid ticket exception when the ticket to robot and take out bag given ticket is invalid"() {
+        given:
+        def locker = new Locker(1)
+        def robot = new LockerRobot([locker])
+        def invalidTicket = new Ticket()
+
+        when:
+        robot.take(invalidTicket)
+
+        then:
+        thrown(InvalidTicketException)
     }
 }
