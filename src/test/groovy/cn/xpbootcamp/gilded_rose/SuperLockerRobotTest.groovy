@@ -1,5 +1,6 @@
 package cn.xpbootcamp.gilded_rose
 
+import cn.xpbootcamp.gilded_rose.exception.LockerFullException
 import spock.lang.Specification
 
 class SuperLockerRobotTest extends Specification {
@@ -51,5 +52,25 @@ class SuperLockerRobotTest extends Specification {
         then:
         ticket != null
         bag == firstLocker.take(ticket)
+    }
+
+    void "should throw full locker exception when store bag given the super locker robot manages 2 lockers with vacancy rate 0%"() {
+        given:
+        def firstLocker = getFullLocker()
+        def secondLocker = getFullLocker()
+        def superLockerRobot = new SuperLockerRobot([firstLocker, secondLocker])
+        def bag = new Bag()
+
+        when:
+        def ticket = superLockerRobot.store(bag)
+
+        then:
+        thrown(LockerFullException)
+    }
+
+    Locker getFullLocker() {
+        Locker locker = new Locker(1)
+        locker.store(new Bag())
+        return locker
     }
 }
