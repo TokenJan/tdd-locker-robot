@@ -69,12 +69,6 @@ class SuperLockerRobotTest extends Specification {
         thrown(LockerFullException)
     }
 
-    Locker getFullLocker() {
-        Locker locker = new Locker(1)
-        locker.store(new Bag())
-        return locker
-    }
-
     void "should return the bag when given the ticket to robot and take out bag given ticket is valid and stored the bag in the 1st locker"() {
         given:
         def firstLocker = new Locker(1)
@@ -116,5 +110,11 @@ class SuperLockerRobotTest extends Specification {
 
         then:
         thrown(InvalidTicketException)
+    }
+
+    Locker getFullLocker() {
+        Locker locker = new Locker(1)
+        locker.store(new Bag())
+        return locker
     }
 }

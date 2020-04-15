@@ -15,11 +15,15 @@ public class SuperLockerRobot {
     }
 
     Ticket store(Bag bag) {
-        Locker locker = this.lockers.stream()
+        Locker locker = getMaxVacancyRateLocker();
+        return locker.store(bag);
+    }
+
+    private Locker getMaxVacancyRateLocker() {
+        return this.lockers.stream()
                 .filter(Locker::isAvailable)
                 .max(Comparator.comparingDouble(Locker::getVacancyRate))
                 .orElseThrow(LockerFullException::new);
-        return locker.store(bag);
     }
 
     Bag take(Ticket ticket) {
