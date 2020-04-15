@@ -45,4 +45,8 @@ public class Locker {
     int getFreeSpace() {
         return this.capacity - this.storedBags.size();
     }
+
+    double getVacancyRate() {
+        return 1 - (double) this.storedBags.size() / this.capacity;
+    }
 }
