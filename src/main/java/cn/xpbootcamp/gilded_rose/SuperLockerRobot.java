@@ -1,5 +1,6 @@
 package cn.xpbootcamp.gilded_rose;
 
+import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
 import cn.xpbootcamp.gilded_rose.exception.LockerFullException;
 
 import java.util.Comparator;
@@ -19,5 +20,13 @@ public class SuperLockerRobot {
                 .max(Comparator.comparingDouble(Locker::getVacancyRate))
                 .orElseThrow(LockerFullException::new);
         return locker.store(bag);
+    }
+
+    Bag take(Ticket ticket) {
+        return this.lockers.stream()
+                .filter(locker -> locker.isTicketValid(ticket))
+                .findFirst()
+                .map(locker -> locker.take(ticket))
+                .orElseThrow(InvalidTicketException::new);
     }
 }

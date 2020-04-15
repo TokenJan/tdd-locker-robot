@@ -73,4 +73,19 @@ class SuperLockerRobotTest extends Specification {
         locker.store(new Bag())
         return locker
     }
+
+    void "should return the bag when given the ticket to robot and take out bag given ticket is valid and stored the bag in the 1st locker"() {
+        given:
+        def firstLocker = new Locker(1)
+        def secondLocker = new Locker(1)
+        def robot = new SuperLockerRobot([firstLocker, secondLocker])
+        def bagIn = new Bag()
+        def ticket = firstLocker.store(bagIn)
+
+        when:
+        def bagOut = robot.take(ticket)
+
+        then:
+        bagIn == bagOut
+    }
 }
